@@ -29,7 +29,7 @@ angular
         templateUrl: 'views/description.html'
       })
       .when('/protocols', {
-        templateUrl: 'views/protocols.html'
+        templateUrl: 'views/protocol.html'
       })
       .when('/schedule', {
         templateUrl: 'views/schedule.html'
