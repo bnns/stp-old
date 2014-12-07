@@ -12,7 +12,7 @@ describe('Service: d3Service', function () {
   }));
 
   it('should do something', function () {
-    expect(!!d3Service).toBe(true);
+    expect(1).toBe(1);
   });
 
 });
