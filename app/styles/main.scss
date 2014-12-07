@@ -15,6 +15,27 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   font-family: 'Source Sans Pro', sans-serif;
+  color: #fff;
+}
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #fff;
+}
+
+a:link {
+  color: #fff;
+}
+
+a:visited {
+  color: #fff;
+}
+
+a:active {
+  color: #fff;
 }
 
 /* Custom page footer */
@@ -77,10 +98,7 @@ body {
 
 .stp-nav-link {
 
-  a{
-    color:#fff;
-    font-size: 1.5em;
-  }
+  font-size: 1.5em;
 
   a:active {
     text-decoration: underline;
@@ -120,14 +138,11 @@ circle:hover{
 }
 
 .titleText {
-  font-size: 18px;
-  color: #fff;
-  font-weight: bold;
+  font-size: 24px;
 }
 
 .subtitleText {
   font-size: 14px;
-  color: #fff;
 }
 
 .nodeText {
