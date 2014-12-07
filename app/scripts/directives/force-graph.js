@@ -57,7 +57,7 @@ angular.module('stpApp')
 			  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
 			});
 
-			var width = '1280',
+			var width = '800',
 			    height = '600';
 
 			var force = d3.layout.force()
@@ -107,7 +107,7 @@ angular.module('stpApp')
 			    .text(function(d) { return d.name; })
 			    .attr('class', 'nodeText');
       	});
-       
+
       }
     };
   }]);
