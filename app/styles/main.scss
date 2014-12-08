@@ -3,6 +3,31 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+@font-face {
+    font-family: 'Liberation Sans';
+    src: font-url('liberation-sans/LiberationSans-Regular.ttf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Liberation Sans';
+    src: font-url('liberation-sans/LiberationSans-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Liberation Sans';
+    src: font-url('liberation-sans/LiberationSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Liberation Sans';
+    src: font-url('liberation-sans/LiberationSans-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -14,7 +39,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 body {
   padding-top: 20px;
   padding-bottom: 20px;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Liberation Sans', sans-serif;
   color: #fff;
 }
 
@@ -137,12 +162,19 @@ circle:hover{
   cursor: pointer;
 }
 
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
 .titleText {
   font-size: 24px;
+  font-weight: bold;
 }
 
 .subtitleText {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .nodeText {

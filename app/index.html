@@ -17,7 +17,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   </head>
   <body ng-app="stpApp">
     <!--[if lt IE 7]>
@@ -32,8 +32,8 @@
             <a href="#/"><img src="http://bnns.github.io/stp/stp_logo.png" width="80px" height="80px"></a>
           </div>
           <div class="col-md-4 stp-nav" style="margin-top: 1em;">
-            <span class="titleText stp-nav-link"><a href="#/">Subset of Theoretical Practice</a></span><br/>
-            <span class="subtitleText">a part of the <b><a style="color: #fff;" href="http://www.ideaandideology.com" target="_blank">Circle of Studies of Idea and Ideology</a></b></span>
+            <div class="titleText stp-nav-link"><a href="#/">Subset of Theoretical Practice</a></div>
+            <div class="col-md-offset-1 subtitleText">a part of the <b><a style="color: #fff;" href="http://www.ideaandideology.com" target="_blank">Circle of Studies of Idea and Ideology</a></b></div>
           </div>
           <div class="col-md-6 stp-nav">
               <div class="col-md-4 stp-nav-link"><a href="#/description">Description</a></div>
@@ -41,7 +41,7 @@
               <div class="col-md-4 stp-nav-link"><a href="#/schedule">Schedule</a></div>
           </div>
         </div>
-        <div class="container" ng-view=""></div>
+        <div class="container" style="margin-top: 3em;" ng-view=""></div>
       </div>
     </body>
 
@@ -89,6 +89,8 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/showdown/compressed/showdown.js"></script>
     <script src="bower_components/angular-markdown-directive/markdown.js"></script>
+    <script src="bower_components/tabletop/src/tabletop.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <!-- endbower -->
 
     <!-- endbuild -->
@@ -98,6 +100,8 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/directives/force-graph.js"></script>
         <script src="scripts/services/d3service.js"></script>
+        <script src="scripts/services/tabletopservice.js"></script>
+        <script src="scripts/directives/timeline.js"></script>
         <!-- endbuild -->
 </body>
 </html>
