@@ -153,7 +153,6 @@ a:active {
 
 circle {
   fill: #fff;
-  stroke: #333;
   stroke-width: 1.5px;
 }
 
@@ -179,10 +178,6 @@ circle:hover{
 
 .nodeText {
   fill: #fff;
-  /*stroke: #000;*/
-  font-size: 14px;
-  /*color: #fff;*/
-  font-weight: bold;
-  pointer-events: none;
+  font-size: 12px;
   /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;*/
 }

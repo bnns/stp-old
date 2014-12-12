@@ -9,6 +9,38 @@
 angular.module('stpApp')
   .directive('timeline', ['$compile', 'd3Service', function ($compile, d3Service) {
 
+    var wrap = function(text) {
+      console.log(text);
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 12, // px
+            y = text.attr('y'),
+            x = text.attr('x'),
+            dy = text.attr('text_y'),
+            dx = text.attr('text_x'),
+            tspan = text.text(null).append("tspan").attr('x', x).attr('y', y).attr('dx', dx).attr('dy', dy);
+            console.log('x', x, 'y', y, 'dx', dx, 'dy', dy)
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(' '));
+          if (tspan.node().getComputedTextLength() > 20) {
+            line.pop();
+            tspan.text(line.join(' '));
+            line = [word];
+            tspan = text.append('tspan')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('dx', dx)
+            .attr('dy', lineNumber++ * lineHeight + 'px').text(word);
+          }
+        }
+      });
+    }
+
     return {
 	  template: '<div class=\'stp-timeline\'></div>',
       restrict: 'EA',
@@ -37,7 +69,7 @@ angular.module('stpApp')
 			.max()
 			.value();
 		var startDate = moment('11/01/2014', 'MM/DD/YYYY');
-		var lineStart = 50;
+		var lineStart = (scope.points.length > 0) ? 50 : 0;
 		var height = (scope.points.length > 0) ? moment(latestTime).diff(startDate, 'weeks') * 50 + lineStart : 0;
 		var endPoints = [];
 
@@ -62,7 +94,10 @@ angular.module('stpApp')
 	    				endPoints.push({
 	    					x: leftCenter,
 	    					y: prevDiff,
+                            text_x: -75,
+                            text_y: 5,
 	    					text: entry.filename,
+                            date: moment(entry.date).format('MM/DD/YYYY'),
 	    					link: entry.filelocation
 	    				});
 	    			}
@@ -72,7 +107,10 @@ angular.module('stpApp')
 		    			endPoints.push({
 		    				x: rightCenter,
 		    				y: prevDiff,
+                            text_x: 20,
+                            text_y: 5,
 		    				text: entry.update,
+                            date: moment(entry.date).format('MM/DD/YYYY'),
 		    				link: null
 		    			});
 	    			}
@@ -83,12 +121,16 @@ angular.module('stpApp')
 					endPoints.push({
 						x: center,
 						y: lineStart,
+                        text_x: -20,
+                        text_y: -20,
 						text: 'Abstract',
 						link: null
 					},
 					{
 						x: center,
 						y: height,
+                        text_x: -30,
+                        text_y: 30,
 						text: 'Bibliography',
 						link: null
 					});
@@ -120,11 +162,16 @@ angular.module('stpApp')
 			    .attr('r', 10)
 			    .attr('class', 'circle');
 
-			var text = svg.data(endPoints)
+			var text = svg.selectAll('text')
+                .data(endPoints)
 	    		.enter()
-	    		.text(function(d){ return '(' + d.x + ', ' + d.y + ')'; })
-	    		.attr('x', function(d){ return d.x })
-	    		.attr('y', function(d){ return d.y })
+                .append('text')
+	    		.text(function(d){
+                    return d.date ? d.text + ' (' + d.date + ')' : d.text;
+                })
+                .call(wrap)
+	    		.attr('x', function(d){ return d.x + d.text_x })
+	    		.attr('y', function(d){ return d.y + d.text_y })
 	    		.attr('class', 'nodeText');
         });
       }
