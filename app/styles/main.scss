@@ -161,6 +161,10 @@ circle:hover{
   cursor: pointer;
 }
 
+.pointer-cancel{
+  pointer-events: none;
+}
+
 .axis path, .axis line {
   fill: none;
   stroke: #fff;

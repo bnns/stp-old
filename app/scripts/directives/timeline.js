@@ -17,13 +17,12 @@ angular.module('stpApp')
             word,
             line = [],
             lineNumber = 0,
-            lineHeight = 12, // px
-            y = text.attr('y'),
+            lineHeight = 14, // px
             x = text.attr('x'),
-            dy = text.attr('text_y'),
-            dx = text.attr('text_x'),
+            y = text.attr('y'),
+            dx = text.attr('dx'),
+            dy = text.attr('dy'),
             tspan = text.text(null).append("tspan").attr('x', x).attr('y', y).attr('dx', dx).attr('dy', dy);
-            console.log('x', x, 'y', y, 'dx', dx, 'dy', dy)
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(' '));
@@ -34,7 +33,7 @@ angular.module('stpApp')
             tspan = text.append('tspan')
             .attr('x', x)
             .attr('y', y)
-            .attr('dx', dx)
+            .attr('dx', dx + 'px')
             .attr('dy', lineNumber++ * lineHeight + 'px').text(word);
           }
         }
@@ -121,16 +120,16 @@ angular.module('stpApp')
 					endPoints.push({
 						x: center,
 						y: lineStart,
-                        text_x: -20,
-                        text_y: -20,
+                        text_x: 15,
+                        text_y: -25,
 						text: 'Abstract',
 						link: null
 					},
 					{
 						x: center,
 						y: height,
-                        text_x: -30,
-                        text_y: 30,
+                        text_x: 15,
+                        text_y: 35,
 						text: 'Bibliography',
 						link: null
 					});
@@ -165,13 +164,23 @@ angular.module('stpApp')
 			var text = svg.selectAll('text')
                 .data(endPoints)
 	    		.enter()
+                .append('a')
+                .each(function(d) {
+                    var header = d3.select(this);
+                    if (d.link)
+                        header.attr('xlink:href', d.link);
+                    else
+                        header.attr('class', 'pointer-cancel');
+                })
                 .append('text')
 	    		.text(function(d){
                     return d.date ? d.text + ' (' + d.date + ')' : d.text;
                 })
+	    		.attr('x', function(d){ return d.x })
+	    		.attr('y', function(d){ return d.y })
+                .attr('dx', function(d){ return d.text_x })
+                .attr('dy', function(d){ return d.text_y })
                 .call(wrap)
-	    		.attr('x', function(d){ return d.x + d.text_x })
-	    		.attr('y', function(d){ return d.y + d.text_y })
 	    		.attr('class', 'nodeText');
         });
       }

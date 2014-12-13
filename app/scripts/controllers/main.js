@@ -14,6 +14,6 @@ angular.module('stpApp')
   	tabletopService.query(function(data){
   		$scope.timelineData = data;
   		$scope.timelineKeys = _.keys(data);
-  		console.log(data);
+  		//console.log(data);
   	});
   }]);
