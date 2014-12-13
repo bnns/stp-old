@@ -69,7 +69,7 @@ angular.module('stpApp')
 			.value();
 		var startDate = moment('11/01/2014', 'MM/DD/YYYY');
 		var lineStart = (scope.points.length > 0) ? 50 : 0;
-		var height = (scope.points.length > 0) ? moment(latestTime).diff(startDate, 'weeks') * 50 + lineStart : 0;
+		var height = (scope.points.length > 0) ? moment(latestTime).diff(startDate, 'weeks') * 50 : 0;
 		var endPoints = [];
 
 	    d3Service.d3().then(function(d3){
@@ -116,7 +116,7 @@ angular.module('stpApp')
 	    			prevDate = moment(entry.date, 'MM/DD/YYYY');
 	    		});
 
-				if(d.length){
+/*				if(d.length){
 					endPoints.push({
 						x: center,
 						y: lineStart,
@@ -133,7 +133,7 @@ angular.module('stpApp')
 						text: 'Bibliography',
 						link: null
 					});
-				}
+				}*/
 
 				//console.log(pathDescription);
 	    		return pathDescription;
