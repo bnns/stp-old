@@ -38,7 +38,7 @@ angular.module('stpApp')
           }
         }
       });
-    }
+    };
 
     return {
 	  template: '<div class=\'stp-timeline\'></div>',
@@ -88,52 +88,55 @@ angular.module('stpApp')
 	    			prevDiff = moment(entry.date, 'MM/DD/YYYY').diff(prevDate, 'weeks') * 50 + prevDiff;
 	    			//console.log('previous difference', prevDiff);
 	    			pathDescription += 'M ' + center + ' ' + prevDiff + ',';
-	    			if (entry.filename.length){
-	    				pathDescription += 'L ' + leftCenter + ' ' + prevDiff + ',';
-	    				endPoints.push({
-	    					x: leftCenter,
-	    					y: prevDiff,
-                            text_x: -75,
-                            text_y: 5,
-	    					text: entry.filename,
-                            date: moment(entry.date).format('MM/DD/YYYY'),
-	    					link: entry.filelocation
-	    				});
-	    			}
-	    			if (entry.update.length){
-		    			pathDescription += 'M ' + center + ' ' + prevDiff + ',';
-		    			pathDescription += 'L ' + rightCenter + ' ' + prevDiff + ',';
-		    			endPoints.push({
-		    				x: rightCenter,
-		    				y: prevDiff,
-                            text_x: 20,
-                            text_y: 5,
-		    				text: entry.update,
-                            date: moment(entry.date).format('MM/DD/YYYY'),
-		    				link: null
-		    			});
-	    			}
+                    if (entry.update === 'abstract'){
+                        endPoints.push({
+                            x: center,
+                            y: lineStart,
+                            text_x: 15,
+                            text_y: -25,
+                            text: 'abstract',
+                            link: entry.filelocation
+                        });
+                    }
+                    else if (entry.update === 'bibliography'){
+                        endPoints.push({
+                            x: center,
+                            y: height,
+                            text_x: 15,
+                            text_y: 35,
+                            text: 'bibliography',
+                            link: entry.filelocation
+                        });
+                    }
+	    			else {
+                        if (entry.filename.length){
+                            pathDescription += 'L ' + leftCenter + ' ' + prevDiff + ',';
+    	    				endPoints.push({
+                                x: leftCenter,
+                                y: prevDiff,
+                                text_x: -75,
+                                text_y: 5,
+                                text: entry.filename,
+                                date: moment(entry.date).format('MM/DD/YYYY'),
+                                link: entry.filelocation
+                            });
+                        }
+    	    			if (entry.update.length){
+    		    			pathDescription += 'M ' + center + ' ' + prevDiff + ',';
+    		    			pathDescription += 'L ' + rightCenter + ' ' + prevDiff + ',';
+    		    			endPoints.push({
+    		    				x: rightCenter,
+    		    				y: prevDiff,
+                                text_x: 20,
+                                text_y: 5,
+    		    				text: entry.update,
+                                date: moment(entry.date).format('MM/DD/YYYY'),
+    		    				link: null
+    		    			});
+    	    			}
+                    }
 	    			prevDate = moment(entry.date, 'MM/DD/YYYY');
 	    		});
-
-/*				if(d.length){
-					endPoints.push({
-						x: center,
-						y: lineStart,
-                        text_x: 15,
-                        text_y: -25,
-						text: 'Abstract',
-						link: null
-					},
-					{
-						x: center,
-						y: height,
-                        text_x: 15,
-                        text_y: 35,
-						text: 'Bibliography',
-						link: null
-					});
-				}*/
 
 				//console.log(pathDescription);
 	    		return pathDescription;
@@ -158,13 +161,13 @@ angular.module('stpApp')
 		    	.append('circle')
 	    		.attr('cx', function(d){ return d.x; })
 			    .attr('cy', function(d){ return d.y; })
-			    .attr('r', 10)
+			    .attr('r', 5)
 			    .attr('class', 'circle');
 
 			var text = svg.selectAll('text')
                 .data(endPoints)
 	    		.enter()
-                .append('a')
+                .append('svg:a')
                 .each(function(d) {
                     var header = d3.select(this);
                     if (d.link)
