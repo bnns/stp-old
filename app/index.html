@@ -9,10 +9,11 @@
     <title>Subset of Theoretical Practice</title>
     <meta name="description" content="These pages contain information on the various researches of STP.">
     <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="bower_components/please-wait/build/please-wait.css" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/please-wait/build/please-wait.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -46,6 +47,14 @@
       </div>
     </body>
 
+    <script src="bower_components/please-wait/build/please-wait.js"></script>
+    <script type="text/javascript">
+      window.loading_screen = window.pleaseWait({
+        logo: 'images/stp_logo_small.png',
+        backgroundColor: '#023c72',
+        loadingHtml: '<div style="margin: 0 auto; float: none; width: 40%"><p style="color: #fff;">Each of the parts of philosophy is a philosophical whole, a circle rounded and complete in itself. In each of these parts, however, the philosophical Idea is found in a particular specificality or medium. The single circle, because it is a real totality, bursts through the limits imposed by its special medium, and gives rise to a wider circle. The whole of philosophy in this way resembles a circle of circles. The Idea appears in each single circle, but, at the same time, the whole Idea is constituted by the system of these peculiar phases, and each is a necessary member of the organisation. - Hegel, <em>Encyclopaedia of the Philosophical Sciences (1830)</em></p></div>'
+      });
+    </script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -68,7 +77,6 @@
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/please-wait/build/please-wait.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
