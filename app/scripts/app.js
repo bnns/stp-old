@@ -26,13 +26,13 @@ angular
         controller: 'MainCtrl'
       })
       .when('/description', {
-        template: '<btf-markdown ng-include="\'views/description.md\'"></btf-markdown>'
+        template: '<div class="container"><btf-markdown ng-include="\'views/description.md\'"></btf-markdown></div>'
       })
       .when('/protocols', {
-        template: '<btf-markdown ng-include="\'views/protocol.md\'"></btf-markdown>'
+        template: '<div class="container"><btf-markdown ng-include="\'views/protocol.md\'"></btf-markdown></div>'
       })
       .when('/schedule', {
-        template: '<btf-markdown ng-include="\'views/schedule.md\'"></btf-markdown>'
+        template: '<div class="container"><btf-markdown ng-include="\'views/schedule.md\'"></btf-markdown></div>'
       })
       .otherwise({
         redirectTo: '/'
