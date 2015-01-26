@@ -12,4 +12,6 @@
 
 **January 10**: Cancelled
 
-**January 17**: First Presentation (Topic TBD)
+**January 17**: Social Forms in Dialectical Materialism
+
+**January 24**: A Reading of Incomplete Nature

@@ -3,30 +3,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-@font-face {
-    font-family: 'Liberation Sans';
-    src: font-url('liberation-sans/LiberationSans-Regular.ttf') format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Liberation Sans';
-    src: font-url('liberation-sans/LiberationSans-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'Liberation Sans';
-    src: font-url('liberation-sans/LiberationSans-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Liberation Sans';
-    src: font-url('liberation-sans/LiberationSans-BoldItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
-}
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
 
 .browsehappy {
   margin: 0.2em 0;
@@ -40,7 +17,7 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   background-color: #023c72;
-  font-family: 'Liberation Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   color: #fff;
 }
 
