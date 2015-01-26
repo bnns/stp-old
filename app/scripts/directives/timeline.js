@@ -57,14 +57,15 @@ angular.module('stpApp')
         var latestTime = _.chain(scope.points)
             .pluck('date')
             .map(function(d){
-                return new Date(d).getTime();
+                return d ? new Date(d).getTime() : new Date().getTime();
             })
             .max()
             .value();
 
-        var startDate = moment('11/01/2014', 'MM/DD/YYYY');
+        //var latestTime = new Date('12/01/2015').getTime(); //hard coded final date of the timeline
+        var startDate = moment('01/12/2014', 'DD/MM/YYYY');
         var lineStart = (scope.points.length > 0) ? 50 : 0;
-        var height = (scope.points.length > 0) ? moment(latestTime).diff(startDate, 'weeks') * 50 : 0;
+        var height = (scope.points.length > 0) ? moment(latestTime).diff(startDate, 'weeks') * 40 : 0;
         var endPoints = [];
 
         d3Service.d3().then(function(d3){
@@ -80,7 +81,7 @@ angular.module('stpApp')
                     prevDiff = lineStart;
 
                 _.map(d, function(entry){
-                    prevDiff = moment(entry.date, 'MM/DD/YYYY').diff(prevDate, 'weeks') * 50 + prevDiff;
+                    prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'weeks') * 20 + prevDiff;
                     //console.log('previous difference', prevDiff);
                     pathDescription += 'M ' + center + ' ' + prevDiff + ',';
                     if (entry.update === 'abstract'){
@@ -112,11 +113,11 @@ angular.module('stpApp')
                                 text_x: -75,
                                 text_y: 5,
                                 text: entry.filename,
-                                date: moment(entry.date).format('MM/DD/YYYY'),
+                                date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
                                 link: entry.filelocation
                             });
                         }
-                        if (entry.update.length){
+                        else if (entry.update.length){
                             pathDescription += 'M ' + center + ' ' + prevDiff + ',';
                             pathDescription += 'L ' + rightCenter + ' ' + prevDiff + ',';
                             endPoints.push({
@@ -125,12 +126,12 @@ angular.module('stpApp')
                                 text_x: 20,
                                 text_y: 5,
                                 text: entry.update,
-                                date: moment(entry.date).format('MM/DD/YYYY'),
+                                date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
                                 link: null
                             });
                         }
                     }
-                    prevDate = moment(entry.date, 'MM/DD/YYYY');
+                    prevDate = moment(entry.date, 'DD/MM/YYYY');
                 });
 
                 //console.log(pathDescription);
@@ -165,8 +166,10 @@ angular.module('stpApp')
                 .append('svg:a')
                 .each(function(d) {
                     var header = d3.select(this);
-                    if (d.link)
+
+                    if (d.link){
                         header.attr('xlink:href', d.link);
+                    }
                     else
                         header.attr('class', 'pointer-cancel');
                 })
@@ -179,7 +182,7 @@ angular.module('stpApp')
                 .attr('dx', function(d){ return d.text_x })
                 .attr('dy', function(d){ return d.text_y })
                 .call(wrap)
-                .attr('class', 'nodeText');
+                .attr('class', 'nodeText')
         });
       };
 

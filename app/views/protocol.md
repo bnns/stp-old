@@ -1,7 +1,15 @@
 ###Work Cycle
 
-1 meeting per week (usually Saturday, if not: Monday)
+- 1 meeting per week (usually Saturday, if not: Monday)
+- 2 meetings per presenter (currently a 6 week cycle)
+- 1 institutional meeting every two months, the week after the global meeting
 
-2 meetings per presenter (currently a 6 week cycle)
+###Responsibilities within a cycle
 
-1 institutional meeting every two months, the week after the global meeting
+- to organize and orient two presentations of your research
+- to record the meetings
+- to make the material used in the meetings available in the website (online update)
+- to confirm the dates of your presentations as early and surely as possible
+- promote the subset within CSII
+- to write a work update and upload it to the website
+- write down the bibliography (edited)

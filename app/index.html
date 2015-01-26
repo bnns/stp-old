@@ -27,25 +27,24 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <body class="inner">
-      <div class="container-fluid">
-        <div class="row" style="margin-top: 2em;">
-          <div class="col-md-offset-1 col-md-1">
-            <a href="#/"><img src="images/stp_logo.png" width="80px" height="80px"></a>
-          </div>
-          <div class="col-md-4 stp-nav" style="margin-top: 1em;">
-            <div class="titleText stp-nav-link"><a href="#/">Subset of Theoretical Practice</a></div>
-            <div class="col-md-offset-1 subtitleText">a part of the <b><a style="color: #fff;" href="http://www.ideaandideology.com" target="_blank">Circle of Studies of Idea and Ideology</a></b></div>
-          </div>
-          <div class="col-md-6 stp-nav">
-              <div class="col-md-4 stp-nav-link"><a href="#/description">Description</a></div>
-              <div class="col-md-4 stp-nav-link"><a href="#/protocols">Protocols</a></div>
-              <div class="col-md-4 stp-nav-link"><a href="#/schedule">Schedule</a></div>
-          </div>
+
+    <div class="container-fluid" ng-controller="SplashCtrl">
+      <div class="row" style="margin-top: 2em;" ng-show="showNav">
+        <div class="col-md-offset-1 col-md-1">
+          <a href="#/"><img src="images/stp_logo.png" width="80px" height="80px"></a>
         </div>
-        <div class="container-fluid" style="margin-top: 3em;" ng-view=""></div>
+        <div class="col-md-4 stp-nav" style="margin-top: 1em;">
+          <div class="titleText stp-nav-link"><a href="#/main">Subset of Theoretical Practice</a></div>
+          <div class="col-md-offset-1 subtitleText">a part of the <b><a style="color: #fff;" href="http://www.ideaandideology.com" target="_blank">Circle of Studies of Idea and Ideology</a></b></div>
+        </div>
+        <div class="col-md-6 stp-nav">
+            <div class="col-md-4 stp-nav-link"><a href="#/description">Description</a></div>
+            <div class="col-md-4 stp-nav-link"><a href="#/protocols">Protocols</a></div>
+            <div class="col-md-4 stp-nav-link"><a href="#/schedule">Schedule</a></div>
+        </div>
       </div>
-    </body>
+      <div class="container-fluid" style="margin-top: 3em;" ng-view=""></div>
+    </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
