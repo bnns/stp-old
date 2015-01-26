@@ -26,6 +26,6 @@ angular.module('stpApp')
       //$window.loading_screen.finish();
   		$scope.timelineData = data;
   		$scope.timelineKeys = _.keys(data);
-  		console.log(data);
+  		//console.log(data);
   	});
   }]);
