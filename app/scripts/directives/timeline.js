@@ -65,9 +65,9 @@ angular.module('stpApp')
         //var latestTime = new Date('12/01/2015').getTime(); //hard coded final date of the timeline
         var startDate = moment('01/01/2015', 'DD/MM/YYYY');
         var lineStart = (scope.points.length > 0) ? 50 : 0;
-        var lineHeightOffset = 100;
+        var lineHeightOffset = 50;
         var height = (scope.points.length > 0) ?
-            (moment(latestTime).diff(startDate, 'weeks') * 75) + lineHeightOffset : lineHeightOffset;
+            (moment(latestTime).diff(startDate, 'days') * 11) + lineHeightOffset : lineHeightOffset;
         var endPoints = [];
 
         d3Service.d3().then(function(d3){
@@ -83,7 +83,7 @@ angular.module('stpApp')
                     prevDiff = 0;
 
                 _.map(d, function(entry){
-                    prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'weeks') * 50 + prevDiff;
+                    prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'days') * 7 + prevDiff;
                     //console.log('previous difference', prevDiff);
                     pathDescription += 'M ' + center + ' ' + prevDiff + ',';
                     if (entry.update === 'abstract'){
