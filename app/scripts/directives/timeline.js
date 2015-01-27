@@ -26,7 +26,7 @@ angular.module('stpApp')
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(' '));
-          if (tspan.node().getComputedTextLength() > 20) {
+          if (tspan.node().getComputedTextLength() > 50) {
             line.pop();
             tspan.text(line.join(' '));
             line = [word];
@@ -57,15 +57,17 @@ angular.module('stpApp')
         var latestTime = _.chain(scope.points)
             .pluck('date')
             .map(function(d){
-                return d ? new Date(d).getTime() : new Date().getTime();
+                return d ? moment(d, 'DD/MM/YYYY').toDate() : moment().toDate();
             })
             .max()
             .value();
 
         //var latestTime = new Date('12/01/2015').getTime(); //hard coded final date of the timeline
-        var startDate = moment('01/12/2014', 'DD/MM/YYYY');
+        var startDate = moment('01/01/2015', 'DD/MM/YYYY');
         var lineStart = (scope.points.length > 0) ? 50 : 0;
-        var height = (scope.points.length > 0) ? moment(latestTime).diff(startDate, 'weeks') * 40 : 0;
+        var lineHeightOffset = 100;
+        var height = (scope.points.length > 0) ?
+            (moment(latestTime).diff(startDate, 'weeks') * 75) + lineHeightOffset : lineHeightOffset;
         var endPoints = [];
 
         d3Service.d3().then(function(d3){
@@ -73,15 +75,15 @@ angular.module('stpApp')
             var svg = d3.select('#' + _id)
                 .append('svg')
                 .attr('width', width)
-                .attr('height', height + 50);
+                .attr('height', height + lineStart + lineHeightOffset);
 
             var describePath = function(d){
                 var pathDescription = 'M ' + center + ' 0,',
                     prevDate = startDate,
-                    prevDiff = lineStart;
+                    prevDiff = 0;
 
                 _.map(d, function(entry){
-                    prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'weeks') * 20 + prevDiff;
+                    prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'weeks') * 50 + prevDiff;
                     //console.log('previous difference', prevDiff);
                     pathDescription += 'M ' + center + ' ' + prevDiff + ',';
                     if (entry.update === 'abstract'){
@@ -105,7 +107,7 @@ angular.module('stpApp')
                         });
                     }
                     else {
-                        if (entry.filename.length){
+                        if (entry.type === 'audio'){
                             pathDescription += 'L ' + leftCenter + ' ' + prevDiff + ',';
                             endPoints.push({
                                 x: leftCenter,
@@ -117,7 +119,7 @@ angular.module('stpApp')
                                 link: entry.filelocation
                             });
                         }
-                        else if (entry.update.length){
+                        else if (entry.type === 'text'){
                             pathDescription += 'M ' + center + ' ' + prevDiff + ',';
                             pathDescription += 'L ' + rightCenter + ' ' + prevDiff + ',';
                             endPoints.push({
@@ -127,7 +129,7 @@ angular.module('stpApp')
                                 text_y: 5,
                                 text: entry.update,
                                 date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-                                link: null
+                                link: entry.filelocation
                             });
                         }
                     }
