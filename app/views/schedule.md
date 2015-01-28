@@ -15,3 +15,5 @@
 **January 17**: Social Forms in Dialectical Materialism
 
 **January 24**: A Reading of Incomplete Nature
+
+**January 31**: Algebraic Structure
