@@ -19,7 +19,7 @@ angular
     'ngTouch',
     'btford.markdown'
   ])
-  .config(function ($routeProvider) {
+  .config(function($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/splash.html'
@@ -29,13 +29,16 @@ angular
         controller: 'MainCtrl'
       })
       .when('/description', {
-        template: '<div class="container"><btf-markdown ng-include="\'views/description.md\'"></btf-markdown></div>'
+        template: '<div class="container"><btf-markdown ng-include="\'views/description.md\'"></btf-markdown></div>',
+        controller: 'MainCtrl'
       })
       .when('/protocols', {
-        template: '<div class="container"><btf-markdown ng-include="\'views/protocol.md\'"></btf-markdown></div>'
+        template: '<div class="container"><btf-markdown ng-include="\'views/protocol.md\'"></btf-markdown></div>',
+        controller: 'MainCtrl'
       })
       .when('/schedule', {
-        template: '<div class="container"><btf-markdown ng-include="\'views/schedule.md\'"></btf-markdown></div>'
+        template: '<div class="container"><btf-markdown ng-include="\'views/schedule.md\'"></btf-markdown></div>',
+        controller: 'MainCtrl'
       })
       .otherwise({
         redirectTo: '/'
