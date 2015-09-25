@@ -1,9 +1,9 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,700');
 
 .browsehappy {
   margin: 0.2em 0;
@@ -23,22 +23,22 @@ body {
 
 a {
   color: #fff;
-}
 
-a:hover {
-  color: #fff;
-}
+  &:hover {
+    color: #fff;
+  }
 
-a:link {
-  color: #fff;
-}
+  &:link {
+    color: #fff;
+  }
 
-a:visited {
-  color: #fff;
-}
+  &:visited {
+      color: #fff;
+  }
 
-a:active {
-  color: #fff;
+  &:active {
+      color: #fff;
+  }
 }
 
 /* Custom page footer */

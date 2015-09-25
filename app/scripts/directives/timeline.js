@@ -7,23 +7,23 @@
  * # timeline
  */
 angular.module('stpApp')
-  .directive('timeline', ['$compile', 'd3Service', function ($compile, d3Service) {
+  .directive('timeline', ['$compile', 'd3Service', function($compile, d3Service) {
 
     var wrap = function(text) {
       //console.log(text);
       text.each(function() {
         var text = d3.select(this),
-            words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 14, // px
-            x = text.attr('x'),
-            y = text.attr('y'),
-            dx = text.attr('dx'),
-            dy = text.attr('dy'),
-            tspan = text.text(null).append("tspan").attr('x', x).attr('y', y).attr('dx', dx).attr('dy', dy);
-        while (word = words.pop()) {
+          words = text.text().split(/\s+/).reverse(),
+          word = words.pop(),
+          line = [],
+          lineNumber = 0,
+          lineHeight = 14, // px
+          x = text.attr('x'),
+          y = text.attr('y'),
+          dx = text.attr('dx'),
+          dy = text.attr('dy'),
+          tspan = text.text(null).append("tspan").attr('x', x).attr('y', y).attr('dx', dx).attr('dy', dy);
+        while (word) {
           line.push(word);
           tspan.text(line.join(' '));
           if (tspan.node().getComputedTextLength() > 50) {
@@ -31,169 +31,212 @@ angular.module('stpApp')
             tspan.text(line.join(' '));
             line = [word];
             tspan = text.append('tspan')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('dx', dx + 'px')
-            .attr('dy', lineNumber++ * lineHeight + 'px').text(word);
+              .attr('x', x)
+              .attr('y', y)
+              .attr('dx', dx + 'px')
+              .attr('dy', lineNumber++ * lineHeight + 'px').text(word);
           }
+          word = words.pop();
         }
       });
     };
 
-    var link = function (scope, element) {
+    var link = function(scope, element) {
 
-        var _id = scope.name.replace(/, /g, '').replace(' and ', '').replace(' ', '');
-        var template = '<div id="' + _id + '"></div>';
-        element.html(template).show();
-        $compile(element.contents())(scope);
+      var _id = scope.name.replace(/, /g, '').replace(' and ', '').replace(' ', '');
+      var template = '<div id="' + _id + '"></div>';
+      element.html(template).show();
+      $compile(element.contents())(scope);
 
-        //console.log(scope.points);
+      //console.log(scope.points);
 
-        var width = element.parent().width();
-        var center = width / 2,
-            leftCenter = center - 25,
-            rightCenter = center + 25;
+      var width = element.parent().width();
+      var center = width / 2,
+        leftCenter = center - 25,
+        rightCenter = center + 25;
 
-        var latestTime = _.chain(scope.points)
-            .pluck('date')
-            .map(function(d){
-                return d ? moment(d, 'DD/MM/YYYY').toDate() : moment().toDate();
-            })
-            .max()
-            .value();
+      var latestTime = _.chain(scope.points)
+        .pluck('date')
+        .map(function(d) {
+          return d ? moment(d, 'DD/MM/YYYY').toDate() : moment().toDate();
+        })
+        .max()
+        .value();
 
-        //var latestTime = new Date('12/01/2015').getTime(); //hard coded final date of the timeline
-        var startDate = moment('01/01/2015', 'DD/MM/YYYY');
-        var lineStart = (scope.points.length > 0) ? 50 : 0;
-        var lineHeightOffset = 50;
-        var height = (scope.points.length > 0) ?
-            (moment(latestTime).diff(startDate, 'days') * 11) + lineHeightOffset : lineHeightOffset;
-        var endPoints = [];
+      //var latestTime = new Date('12/01/2015').getTime(); //hard coded final date of the timeline
+      var startDate = moment('01/01/2015', 'DD/MM/YYYY');
+      var lineStart = (scope.points.length > 0) ? 50 : 0;
+      var lineHeightOffset = 50;
+      var height = (scope.points.length > 0) ?
+        (moment(latestTime).diff(startDate, 'days') * 8) + lineHeightOffset : lineHeightOffset;
+      var endPoints = [];
 
-        d3Service.d3().then(function(d3){
+      d3Service.d3().then(function(d3) {
 
-            var svg = d3.select('#' + _id)
-                .append('svg')
-                .attr('width', width)
-                .attr('height', height + lineStart + lineHeightOffset);
+        var svg = d3.select('#' + _id)
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height + lineStart + lineHeightOffset);
 
-            var describePath = function(d){
-                var pathDescription = 'M ' + center + ' 0,',
-                    prevDate = startDate,
-                    prevDiff = 0;
+        var describePath = function(d) {
+          var pathDescription = 'M ' + center + ' 0,',
+            prevDate = startDate,
+            prevDiff = 0;
 
-                _.map(d, function(entry){
-                    prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'days') * 7 + prevDiff;
-                    //console.log('previous difference', prevDiff);
-                    pathDescription += 'M ' + center + ' ' + prevDiff + ',';
-                    if (entry.update === 'abstract'){
-                        endPoints.push({
-                            x: center,
-                            y: lineStart,
-                            text_x: 15,
-                            text_y: -25,
-                            text: 'abstract',
-                            link: entry.filelocation
-                        });
-                    }
-                    else if (entry.update === 'bibliography'){
-                        endPoints.push({
-                            x: center,
-                            y: height,
-                            text_x: 15,
-                            text_y: 35,
-                            text: 'bibliography',
-                            link: entry.filelocation
-                        });
-                    }
-                    else {
-                        if (entry.type === 'audio'){
-                            pathDescription += 'L ' + leftCenter + ' ' + prevDiff + ',';
-                            endPoints.push({
-                                x: leftCenter,
-                                y: prevDiff,
-                                text_x: -75,
-                                text_y: 5,
-                                text: entry.filename,
-                                date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-                                link: entry.filelocation
-                            });
-                        }
-                        else if (entry.type === 'text'){
-                            pathDescription += 'M ' + center + ' ' + prevDiff + ',';
-                            pathDescription += 'L ' + rightCenter + ' ' + prevDiff + ',';
-                            endPoints.push({
-                                x: rightCenter,
-                                y: prevDiff,
-                                text_x: 20,
-                                text_y: 5,
-                                text: entry.update,
-                                date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-                                link: entry.filelocation
-                            });
-                        }
-                    }
-                    prevDate = moment(entry.date, 'DD/MM/YYYY');
+          _.map(d, function(entry) {
+            prevDiff = moment(entry.date, 'DD/MM/YYYY').diff(prevDate, 'days') * 7 + prevDiff;
+            //console.log('previous difference', prevDiff);
+            pathDescription += 'M ' + center + ' ' + prevDiff + ',';
+            if (entry.update === 'abstract') {
+              endPoints.push({
+                x: center,
+                y: lineStart,
+                xText: 15,
+                yText: -25,
+                text: 'abstract',
+                link: entry.filelocation
+              });
+            } else if (entry.update === 'bibliography') {
+              endPoints.push({
+                x: center,
+                y: height,
+                xText: 15,
+                yText: 35,
+                text: 'bibliography',
+                link: entry.filelocation
+              });
+            } else {
+              if (entry.type === 'audio') {
+                pathDescription += 'L ' + leftCenter + ' ' + prevDiff + ',';
+                endPoints.push({
+                  x: leftCenter,
+                  y: prevDiff,
+                  xText: -75,
+                  yText: 5,
+                  text: entry.filename,
+                  date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
+                  link: entry.filelocation
                 });
+              } else if (entry.type === 'text') {
+                pathDescription += 'M ' + center + ' ' + prevDiff + ',';
+                pathDescription += 'L ' + rightCenter + ' ' + prevDiff + ',';
+                endPoints.push({
+                  x: rightCenter,
+                  y: prevDiff,
+                  xText: 20,
+                  yText: 5,
+                  text: entry.update,
+                  date: moment(entry.date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
+                  link: entry.filelocation
+                });
+              }
+            }
+            prevDate = moment(entry.date, 'DD/MM/YYYY');
+          });
 
-                //console.log(pathDescription);
-                return pathDescription;
-            };
+          //console.log(pathDescription);
+          return pathDescription;
+        };
 
-            var line = svg.append('line')
-                .attr('x1', center)
-                .attr('y1', lineStart)
-                .attr('x2', center)
-                .attr('y2', height)
-                .attr('stroke-width', 2)
-                .attr('stroke', '#fff');
 
-            var path = svg.append('path')
-                .attr('d', describePath(scope.points))
-                .attr('stroke-width', 2)
-                .attr('stroke', '#fff');
+        var line = svg.append('line')
+          .attr('x1', center)
+          .attr('y1', lineStart)
+          .attr('x2', center)
+          .attr('y2', height)
+          .attr('stroke-width', 2)
+          .attr('stroke', '#fff')
+          .attr("stroke-dasharray", height + " " + height)
+          .attr("stroke-dashoffset", height)
+          .transition()
+          .delay(function(d, i) {
+            return i * 1000;
+          })
+          .duration(8000)
+          .ease("linear")
+          .attr("stroke-dashoffset", 0)
+          .each("end", function() {
+            d3.select(".label")
+              .transition()
+              .style("opacity", 1);
+          });
 
-            var circle = svg.selectAll('circle')
-                .data(endPoints)
-                .enter()
-                .append('circle')
-                .attr('cx', function(d){ return d.x; })
-                .attr('cy', function(d){ return d.y; })
-                .attr('r', 5)
-                .attr('class', 'circle');
+        var path = svg.append('path')
+          .attr('d', describePath(scope.points))
+          .transition()
+          .duration(2000)
+          .attr('stroke-width', 2)
+          .attr('stroke', '#fff');
 
-            var text = svg.selectAll('text')
-                .data(endPoints)
-                .enter()
-                .append('svg:a')
-                .each(function(d) {
-                    var header = d3.select(this);
+        var totalLength = path.node().getTotalLength();
 
-                    if (d.link){
-                        header.attr('xlink:href', d.link);
-                    }
-                    else
-                        header.attr('class', 'pointer-cancel');
-                })
-                .append('text')
-                .text(function(d){
-                    return d.date ? d.text + ' (' + d.date + ')' : d.text;
-                })
-                .attr('x', function(d){ return d.x })
-                .attr('y', function(d){ return d.y })
-                .attr('dx', function(d){ return d.text_x })
-                .attr('dy', function(d){ return d.text_y })
-                .call(wrap)
-                .attr('class', 'nodeText')
+        path
+          .attr("stroke-dasharray", totalLength + " " + totalLength)
+          .attr("stroke-dashoffset", totalLength)
+          .transition()
+          .duration(2000)
+          .ease("linear")
+          .attr("stroke-dashoffset", 0);
+
+
+        var circle = svg.selectAll('circle')
+          .data(endPoints)
+          .enter()
+          .append('circle')
+          .attr('cx', function(d) {
+            return d.x;
+          })
+          .attr('cy', function(d) {
+            return d.y;
+          })
+          .attr('class', 'circle');
+
+        [1, 2, 3, 4, 5].forEach(function(d, i) {
+          circle.transition().duration(1000).delay(i * 1000)
+            .attr("r", d);
         });
-      };
+
+
+
+        svg.selectAll('text')
+          .data(endPoints)
+          .enter()
+          .append('svg:a')
+          .each(function(d) {
+            var header = d3.select(this);
+
+            if (d.link) {
+              header.attr('xlink:href', d.link);
+            } else
+              header.attr('class', 'pointer-cancel');
+          })
+          .append('text')
+          .text(function(d) {
+            return d.date ? d.text + ' (' + d.date + ')' : d.text;
+          })
+          .attr('x', function(d) {
+            return d.x;
+          })
+          .attr('y', function(d) {
+            return d.y;
+          })
+          .attr('dx', function(d) {
+            return d.xText;
+          })
+          .attr('dy', function(d) {
+            return d.yText;
+          })
+          .call(wrap)
+          .attr('class', 'nodeText');
+      });
+    };
 
     return {
-	  template: '<div class=\'stp-timeline\'></div>',
+      template: '<div class=\'stp-timeline\'></div>',
       restrict: 'EA',
       scope: {
-      	name: '=researchName',
-      	points: '=researchPoints'
+        name: '=researchName',
+        points: '=researchPoints'
       },
       link: link
     };
