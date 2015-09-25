@@ -63,12 +63,11 @@ angular.module('stpApp')
         .max()
         .value();
 
-      //var latestTime = new Date('12/01/2015').getTime(); //hard coded final date of the timeline
       var startDate = moment('01/01/2015', 'DD/MM/YYYY');
       var lineStart = (scope.points.length > 0) ? 50 : 0;
       var lineHeightOffset = 50;
       var height = (scope.points.length > 0) ?
-        (moment(latestTime).diff(startDate, 'days') * 8) + lineHeightOffset : lineHeightOffset;
+        (moment(latestTime).diff(startDate, 'days') * 10) + lineHeightOffset : lineHeightOffset;
       var endPoints = [];
 
       var describePath = function(d) {
@@ -138,7 +137,7 @@ angular.module('stpApp')
           .attr('width', width)
           .attr('height', height + lineStart + lineHeightOffset);
 
-        var line = svg.append('line')
+        svg.append('line')
           .attr('x1', center)
           .attr('y1', lineStart)
           .attr('x2', center)
