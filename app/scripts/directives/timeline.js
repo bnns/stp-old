@@ -147,8 +147,8 @@ angular.module('stpApp')
           .attr("stroke-dasharray", height + " " + height)
           .attr("stroke-dashoffset", height)
           .transition()
-          .delay(1000)
-          .duration(8000)
+          .delay(3000)
+          .duration(7000)
           .ease("linear")
           .attr("stroke-dashoffset", 0);
 
@@ -163,8 +163,8 @@ angular.module('stpApp')
           .attr("stroke-dasharray", totalLength + " " + totalLength)
           .attr("stroke-dashoffset", totalLength)
           .transition()
-          .duration(2000)
-          .delay(3000)
+          .delay(4000)
+          .duration(3000)
           .ease("linear")
           .attr("stroke-dashoffset", 0);
 
@@ -176,6 +176,7 @@ angular.module('stpApp')
             var header = d3.select(this);
             if (d.link) {
               header.attr('xlink:href', d.link);
+              header.attr('target', '_blank');
             } else
               header.attr('class', 'pointer-cancel');
           })
