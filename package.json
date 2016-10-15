@@ -39,6 +39,6 @@
   },
   "scripts": {
     "test": "grunt test",
-    "start": "grunt serve"
+    "start": "grunt serve:dist --force"
   }
 }
